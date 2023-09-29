@@ -1,0 +1,108 @@
+/* CSVSearch.css */
+
+/* Container styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+/* Header styles */
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Input and select styles */
+input[type="text"],
+select {
+  padding: 10px;
+  font-size: 16px;
+  margin: 5px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+input[type="date"] {
+  width: 100%;
+  max-width: 150px;
+}
+tr:hover {
+  background-color: #eee;
+}
+input[type="date"] {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Button styles */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Results table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  input[type="text"],
+  select {
+    font-size: 14px;
+  }
+  input[type="date"] {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+
+  table th,
+  table td {
+    padding: 8px;
+  }
+}
