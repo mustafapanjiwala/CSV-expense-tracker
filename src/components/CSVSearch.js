@@ -1,7 +1,41 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import "./CSVSearch.css";
-import { Spinner } from "react-bootstrap";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+      text: "Debit/Credit Visualiser",
+      fullSize: true,
+
+      font: { weight: "bold", size: 20 },
+    },
+  },
+};
 
 const CSVSearch = () => {
   const [keyword, setKeyword] = useState("");
@@ -10,6 +44,9 @@ const CSVSearch = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // const [labels, setLabels] = useState([]);
+  // const[debitData, setDebitData] = useState([]);
+  // const[creditData, setCreditData] = useState([]);
 
   const handleAccountChange = (account) => {
     if (selectedAccounts.includes(account)) {
@@ -85,12 +122,48 @@ const CSVSearch = () => {
       const allSearchResults = results.flat();
 
       // Set the combined results
+      console.log(allSearchResults);
       setSearchResults(allSearchResults);
     } catch (error) {
       console.error("Error fetching or parsing CSV:", error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const labels = searchResults.map((item) => {
+    return item.Date;
+  });
+  // console.log(labels);
+
+  const debitData = searchResults.map((item) => {
+    return item.Debit;
+  });
+
+  const creditData = searchResults.map((item) => {
+    return item.Credit;
+  });
+
+  // searchResults.map(item => item.Debit);
+
+  // searchResults.map(item => item.Credit);
+
+  // console.log(debitData)
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Debit",
+        data: debitData,
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "Credit",
+        data: creditData,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
   };
 
   return (
@@ -178,33 +251,49 @@ const CSVSearch = () => {
       <button onClick={handleSearch}>Search</button>
       <div>
         <h3>Search Results:</h3>
+
+        <div className="chart-contain">
+          <Bar options={options} data={data} />
+        </div>
+
         {isLoading ? (
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+          <span className="visually-hidden">Loading...</span>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Balance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {searchResults.map((row, index) => (
-                <tr key={index}>
-                  <td>{row.Date}</td>
-                  <td>{row.Description}</td>
-                  <td>{row.Debit}</td>
-                  <td>{row.Credit}</td>
-                  <td>{row.Balance}</td>
+          <>
+            <h3
+              style={{
+                textAlign: "center",
+                color: "#666666",
+                fontSize: "20px",
+                margin: "20px",
+                textDecoration: "underline",
+              }}
+            >
+              Transaction Table Data
+            </h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Debit</th>
+                  <th>Credit</th>
+                  <th>Balance</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {searchResults.map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.Date}</td>
+                    <td>{row.Description}</td>
+                    <td>{row.Debit}</td>
+                    <td>{row.Credit}</td>
+                    <td>{row.Balance}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
         )}
       </div>
     </div>
