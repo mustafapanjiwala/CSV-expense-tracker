@@ -3,7 +3,7 @@ import CSVSearch from "./components/CSVSearch";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <CSVSearch />
     </div>
   );
